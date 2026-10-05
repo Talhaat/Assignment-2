@@ -1,13 +1,3 @@
-#----------------------------------------------------------
-#--------File for analysis, Assignment 2, ACIT4422---------
-#----------------------------------------------------------
-
-# Analysis functions from Assignment 1 main.py (section 4.5). Changed in Assignment 2:
-# - is_valid() only checks the poor-signal rule, the loader rejects everything else.
-# - Sessions with 0 or 1 usable observations no longer crash (compare_to_reference() and
-#   is_recovering() handle the empty case).
-# - "insufficient data" also needs a minimum number of usable observations, and gets its own explanation.
-# - The result dictionary has session_id and participant name.
 
 # Rules for the analysis. All numbers are the same as in Assignment 1, except MIN_USABLE_OBSERVATIONS.
 MIN_SIGNAL_QUALITY = 0.5        # observations with lower signal quality are not used (poor-signal rule)
@@ -16,12 +6,7 @@ RESTING_LIMIT = 0.25            # average activity below this is resting
 MODERATE_LIMIT = 0.65           # average activity below this is moderate activity, from here it is high activity
 RECOVERY_HEART_RATE_DROP = 10   # second half heart rate must be more than this many bpm lower than the first half
 RECOVERY_ACTIVITY_DROP = 0.15   # second half activity must be more than this much lower than the first half
-
-# New in Assignment 2: a session needs at least 4 usable observations to be classified.
-# The recovery check compares the first and second half of a session, and Assignment 1 already
-# needed 4 observations (two per half) for it. With fewer, a session that is really recovering
-# could be labelled resting or moderate just from its average, so it is "insufficient data" instead.
-# Example: FIT-2026-101 has only 1 row left after the invalid rows are rejected.
+ 
 MIN_USABLE_OBSERVATIONS = 4
 
 
@@ -77,12 +62,6 @@ def build_session_report(session):
 #Function to check if an observation can be used in the analysis (poor-signal rule)
 # Input is observation object, return boolean value, true or false.
 def is_valid(observation):
-    # The loader already rejects rows with missing fields, wrong types and values out of range
-    # (heart rate 30-220, skin response >= 0, activity and signal quality 0-1), so the Assignment 1
-    # checks for those could never fail here and are left out. Only the poor-signal rule is left
-    # (section 4.3): a row with signal quality below 0.5 is a well-formed, real measurement, so it is
-    # kept and counted, but the sensor reading is not trusted, so it is not used for the averages
-    # or the classification. Exactly 0.5 is usable.
     return observation.signal_quality >= MIN_SIGNAL_QUALITY
 
 
