@@ -1,9 +1,3 @@
-#----------------------------------------------------------
-#--------File for classes, Assignment 2, ACIT4422----------
-#----------------------------------------------------------
-
-# Copied from Assignment 1. New in Assignment 2: Participant has a name (from participants.csv)
-# and FitnessSession has a session_id (FIT-YYYY-NNN), so rows can be grouped per session.
 
 #Class for reference profile containing hearthrate, skin response and temperature
 class ReferenceProfile:
