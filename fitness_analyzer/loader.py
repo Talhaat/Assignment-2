@@ -32,8 +32,6 @@ SESSION_COLUMNS = [
     "signal_quality",
 ]
 
-# Identifier formats from section 4.2. Used with re.fullmatch, so the whole value must match
-# (same as ^P\d{3}$ and ^FIT-\d{4}-\d{3}$).
 PARTICIPANT_ID_PATTERN = r"P\d{3}"
 SESSION_ID_PATTERN = r"FIT-\d{4}-\d{3}"
 
