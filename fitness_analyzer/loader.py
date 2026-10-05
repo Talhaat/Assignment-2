@@ -1,22 +1,3 @@
-#----------------------------------------------------------
-#--------File for reading and validating CSV files---------
-#----------------------------------------------------------
-
-# Reads participants.csv and the session files (section 4.1), checks every row (4.2, 4.3)
-# and handles file and row errors without stopping the program (4.4).
-#
-# Every row goes through the checks in this order, and the first stage that fails rejects it:
-#   1. row length         wrong number of fields                      -> InvalidRecordError
-#   2. missing fields     an empty value                              -> InvalidRecordError
-#   3. identifiers        participant_id / session_id regex           -> InvalidIdentifierError
-#   4. type conversion    text that is not a number                   -> InvalidRecordError
-#   5. ranges             impossible values, see the limits below     -> InvalidRecordError
-#   6. participant        participant_id not in participants.csv      -> InvalidRecordError
-# Inside one stage every bad field is named, e.g. a row with three values out of range.
-#
-# A rejected row is saved as {"file", "row", "field", "reason"}, where row is the line number
-# in the file (header = line 1). File problems (missing file, no permission, not CSV) are printed
-# and that file is skipped, so the other files are still loaded.
 
 import csv
 import math
