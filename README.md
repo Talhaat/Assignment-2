@@ -54,12 +54,12 @@ This program reads participants and fitness sessions from the official CSV files
 
 
 ## Validation rules
-### Identifiers (regex, section 4.2)
+### Identifiers
 * Participant ID: `P\d{3}`, like P001.
 * Session ID: `FIT-\d{4}-\d{3}`, like FIT-2026-001.
 * Both are checked with `re.fullmatch`, so the whole value must match (same as `^...$`). Participant ID is checked in both participants.csv and the session files.
 
-### Row checks (section 4.3)
+### Row checks
 Every row goes through these checks in order. The first check that fails rejects the row.
 1. Row length – one value per column (8 in the session files, 5 in participants.csv).
 2. Missing fields – no empty values.
@@ -101,7 +101,7 @@ Every rejected row is saved with the file name, the row (line number in the file
 * `main.py` catches `PermissionError` and `OSError` when the report files are written, prints a message and exits with code 1. It also exits with code 1 and a message if no participants could be loaded, because there is nothing to analyse then.
 * There are no empty `except` blocks and no `except Exception`, so programming errors are not hidden.
 
-### Custom exceptions (exceptions.py, section 4.4)
+### Custom exceptions
 * InvalidIdentifierError(ValueError)
   * Raised by `check_identifiers()` when participant_id or session_id does not match the regex.
 * InvalidRecordError(ValueError)
@@ -114,7 +114,7 @@ Every rejected row is saved with the file name, the row (line number in the file
 ### Assumptions
 * Only usable observations (signal quality 0.5 or above) are used in the summaries, the comparison and the classification.
 * The session averages are compared with the participant's baseline values. Deviation = session average − baseline. The deviation is reported, but not used for the classification.
-* Both session files are always loaded (section 4.1): `--sessions` and `--invalid`, which defaults to `data/fitness_sessions_invalid.csv`. That way the exact command from the PDF loads both. If the same file is given to both options it is only loaded once.
+* Both session files are always loaded : `--sessions` and `--invalid`, which defaults to `data/fitness_sessions_invalid.csv`. That way the exact command from the PDF loads both. If the same file is given to both options it is only loaded once.
 * Temperature must be 25–42 °C, the same range the Assignment 1 data generator keeps temperature inside. A value like 55.0 is a sensor error.
 * Timestamp and heart rate are whole numbers in the data, so a decimal value there is rejected.
 * "Accepted rows" counts session rows. "Rejected rows" counts rejected rows from all files, participants.csv included.
@@ -195,17 +195,6 @@ file: fitness_sessions_invalid.csv | row: 5 | field: activity_level | reason: ac
 * The crash on sessions with no usable observations is fixed. They are now insufficient data with `n/a` values (FIT-2026-005).
 * The program analyses every session in the files, not only one participant and one scenario at a time.
 * The data is read from the CSV files instead of the data generator.
-
-### Still open
-* Classification limits are fixed values. For example, activity below 0.25 is resting and activity 0.65 or above is high activity.
-* Recovery detection only compares the first half of the session with the second half. This method may not detect every type of recovery correctly.
-* The 50% usable share and the minimum of 4 usable observations are assumptions for this assignment.
-* Rows are not sorted by timestamp and duplicate timestamps are not detected. The recovery check uses the order of the rows in the file.
-* A rejected row only shows the first check that failed. For example, a row with a bad participant ID and a heart rate out of range only lists the participant ID.
-* The deviation from the reference values is reported, but there is no rule for when a deviation is unusual, so it does not change the classification.
-* Only one `--sessions` file and one `--invalid` file can be given.
-* The default paths are relative to the current folder, so the program must be run from the project folder (the one with `main.py`), or be given the paths.
-* The data is simulated and has not been tested on real wearable data.
 
 # Installation and running instructions
 Needs Python 3 and only the standard library, so there is nothing to install.
