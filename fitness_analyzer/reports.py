@@ -1,14 +1,3 @@
-#----------------------------------------------------------
-#--------File for writing report files---------------------
-#----------------------------------------------------------
-
-# Writes the three output files from section 4.6 into the output folder:
-#   analysis_summary.csv   one row per session (csv module)
-#   analysis_report.txt    a readable block per session, like print_report() in Assignment 1
-#   rejected_records.txt   one line per rejected row: file, row, field and reason
-# The folder is created if it does not exist. Every file is opened with "w", so running the
-# program again overwrites the old files instead of adding to them. Numbers are rounded to two
-# decimals, and nothing changes between runs (no dates or times), so the same input gives the same files.
 
 import csv
 from pathlib import Path
